@@ -29,6 +29,7 @@ CREATE OR REFRESH STREAMING TABLE customers_silver;
 
 APPLY CHANGES INTO LIVE.customers_silver
 FROM STREAM(LIVE.customers_bronze_clean)  
+KEYS (customer_id)
 APPLY AS DELETE WHEN operation = "DELETE"
 SEQUENCE BY timestamp
 COLUMNS * EXCEPT(operation, source_file, _rescued_data)
