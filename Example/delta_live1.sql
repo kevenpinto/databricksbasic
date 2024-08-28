@@ -3,7 +3,7 @@ CREATE OR REFRESH STREAMING TABLE events_bronze
 COMMENT "RAW Data from Kafka in JSON Format"
 AS
 SELECT current_timestamp() processing_time, input_file_name() source_file,*
-FROM   cloud_files("dbfs:/mnt/dbacademy-datasets/data-engineer-learning-path/v04/ecommerce/raw/events-kafka/","json",map("cloudFiles.inferColumnTypes", "true"))
+FROM   cloud_files("${source}/events-kafka","json",map("cloudFiles.inferColumnTypes", "true"))
 
 -- COMMAND ----------
 
@@ -11,7 +11,7 @@ CREATE OR REFRESH STREAMING TABLE events_silver
 COMMENT "Silver Events Raw table"
 TBLPROPERTIES("quality"="silver")
 AS
-SELECT timestamp(timestamp) as event_timestamp,* FROM STREAM(LIVE.events_bronze)
+SELECT to_timestamp(timestamp/1000) as event_timestamp,* FROM STREAM(LIVE.events_bronze)
 
 -- COMMAND ----------
 
