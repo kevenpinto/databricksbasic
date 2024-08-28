@@ -15,8 +15,7 @@ COMMENT "Orders Silver Table"
 TBLPROPERTIES ("quality"="silver")
 AS
 SELECT  timestamp(order_timestamp) as order_timestamp,
-        *,
-        EXCEPT(order_timestamp, source_file, _rescued_data)
+        * EXCEPT(order_timestamp, source_file, _rescued_data)
 FROM    STREAM(LIVE.orders_bronze)
 
 -- COMMAND ----------
