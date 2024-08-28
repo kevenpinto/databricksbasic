@@ -1,5 +1,5 @@
 -- Databricks notebook source
-CREATE OR REFRESH STREAMING TABLE events_bronze
+CREATE OR REFRESH STREAMING LIVE TABLE events_bronze
 COMMENT "RAW Data from Kafka in JSON Format"
 AS
 SELECT current_timestamp() processing_time, input_file_name() source_file,*
